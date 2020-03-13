@@ -1,7 +1,12 @@
 *.pac
 *.pyc
+__pycache__/
 tmp/
 
+# 测试相关
+/.python-version
+/.tox
+/.cache
 /.coverage
 /htmlcov/
 
@@ -19,3 +24,6 @@ $RECYCLE.BIN/
 ._*
 .Spotlight-V100
 .Trashes
+
+# Jetbrains IDE
+.idea/

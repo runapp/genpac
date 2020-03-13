@@ -1,6 +1,4 @@
-from setuptools import setup
-
-long_description = '''
+'''
 |pypi version| |pypi license| |travis ci|
 
 Generate PAC file from gfwlist, custom rules supported.
@@ -17,37 +15,45 @@ For more information, please visit `project page`_.
 
 .. _project page: https://github.com/JinnLynn/genpac/
 '''
+import re
+import ast
+from setuptools import setup
 
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
 
-def get_version():
-    with open('genpac/core.py') as f:
-        for line in f:
-            if line.startswith('__version__'):
-                return eval(line.split('=')[-1])
+with open('genpac/__init__.py', 'rb') as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode('utf-8')).group(1)))
+
 
 setup(
     name='genpac',
-    version=get_version(),
-    description='convert gfwlist to pac, custom rules supported.',
-    long_description=long_description,
+    version=version,
+    license='MIT',
     author='JinnLynn',
     author_email='eatfishlin@gmail.com',
     url='https://github.com/JinnLynn/genpac',
-    packages=['genpac', 'genpac.pysocks', 'genpac.publicsuffix'],
+    description='convert gfwlist to pac, custom rules supported.',
+    long_description=__doc__,
+    packages=['genpac', 'genpac.pysocks', 'genpac.publicsuffixlist'],
     package_data={
-        'genpac': ['res/*']
+        'genpac': ['res/*', 'publicsuffixlist/*.dat'],
     },
     entry_points={
         'console_scripts': [
-            'genpac=genpac:main'
+            'genpac=genpac:run'
         ]
     },
-    license='MIT',
+    platforms='any',
     keywords='proxy pac gfwlist gfw',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 )
